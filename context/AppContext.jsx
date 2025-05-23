@@ -31,7 +31,6 @@ export const AppContextProvider = (props) => {
         const data = await res.json();
 
         const mappedProducts = data.map(product => (
-            console.log(product),
             {
                 _id: String(product.id),
                 name: product.name,

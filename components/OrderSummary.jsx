@@ -34,7 +34,6 @@ const OrderSummary = () => {
     setLoading(true);
     try {
       const { name, email, password } = userData;
-      console.log('data', userData);
       const response = await fetch(`${siteUrl}/wp-json/custom/v1/sync-cart`, {
         method: 'POST',
         credentials: 'include',
