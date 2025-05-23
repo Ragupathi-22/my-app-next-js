@@ -59,7 +59,7 @@ const OrderSummary = () => {
 
         // Small delay to ensure cookie is set before redirect
         setTimeout(() => {
-          window.location.href = `${siteUrl}/checkout`;
+          window.location.href = `${siteUrl}/cart`;
         }, 500);
       } else {
         alert(data.message || 'Failed to sync cart.');
