@@ -33,9 +33,9 @@ const OrderSummary = () => {
     }
     setLoading(true);
     try {
-      const { name, email ,password} = userData;
-      console.log('data', userData);  
-      const response = await fetch(`http://localhost/myapp/wp-json/custom/v1/sync-cart`, {
+      const { name, email, password } = userData;
+      console.log('data', userData);
+      const response = await fetch(`${siteUrl}/wp-json/custom/v1/sync-cart`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -55,7 +55,8 @@ const OrderSummary = () => {
 
       if (response.ok && data.session_token) {
         // 👇 Set the login cookie for WordPress (prototype only!)
-        document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=localhost; secure`;
+        // document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=localhost; secure`;
+        document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
 
         // Small delay to ensure cookie is set before redirect
         setTimeout(() => {
