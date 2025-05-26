@@ -16,9 +16,18 @@ const Product = () => {
   const [productData, setProductData] = useState(null);
   const [showAll, setShowAll] = useState(false); // Show more state
 
+    // Get reviews for a specific product
+const getProductReviews = async (productId) => {
+  const reviewsUrl = `https://cwpteam.ntplstaging.com/Ragu/nextjs/rg/wp-json/wc/v3/products/${productId}/reviews?consumer_key=ck_e3ade649974d8e99ec06d79a11f4ae4c1e32a949&consumer_secret=cs_76a950034f3607410f17a19f9a85eb92f1f40e21`;
+  const reviews = await fetch(reviewsUrl).then(res => res.json());
+  console.log("Reviews for product:", productId, reviews);
+  return reviews;
+};
+
   const fetchProductData = async () => {
     const product = products.find((product) => product._id === id);
     setProductData(product);
+    getProductReviews(id);
   };
 
   useEffect(() => {
