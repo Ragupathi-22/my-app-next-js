@@ -55,12 +55,12 @@ const OrderSummary = () => {
       if (response.ok && data.session_token) {
         // 👇 Set the login cookie for WordPress (prototype only!)
         // document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=localhost; secure`;
-        document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
-
+        // document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
+ window.location.href = data.redirect_url;
         // Small delay to ensure cookie is set before redirect
-        setTimeout(() => {
-          window.location.href = `${siteUrl}/cart`;
-        }, 500);
+        // setTimeout(() => {
+        //   window.location.href = `${siteUrl}/cart`;
+        // }, 500);
       } else {
         alert(data.message || 'Failed to sync cart.');
       }
