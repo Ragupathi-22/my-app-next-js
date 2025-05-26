@@ -52,16 +52,18 @@ const OrderSummary = () => {
 
       const data = await response.json();
 
-      if (response.ok && data.session_token) {
-        // 👇 Set the login cookie for WordPress (prototype only!)
-        // document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=localhost; secure`;
-        // document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
- window.location.href = data.redirect_url;
-        // Small delay to ensure cookie is set before redirect
-        // setTimeout(() => {
-        //   window.location.href = `${siteUrl}/cart`;
-        // }, 500);
-      } else {
+      // if (response.ok && data.session_token) {
+      //   document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
+      //   // Small delay to ensure cookie is set before redirect
+      //   setTimeout(() => {
+      //     window.location.href = `${siteUrl}/cart`;
+      //   }, 500);
+      // }
+      if (response.ok && data.redirect_url) {
+  window.location.href = data.redirect_url;
+}
+
+      else {
         alert(data.message || 'Failed to sync cart.');
       }
     } catch (error) {
