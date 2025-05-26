@@ -78,9 +78,9 @@ window.location.href = redirectUrl;
 //   window.location.href = data.redirect_url;
 // }
 
-      else {
-        alert(data.message || 'Failed to sync cart.');
-      }
+      // else {
+      //   alert(data.message || 'Failed to sync cart.');
+      // }
     } catch (error) {
       console.error('Checkout failed:', error);
       alert('Something went wrong during checkout.');
