@@ -34,23 +34,36 @@ const OrderSummary = () => {
     setLoading(true);
     try {
       const { name, email, password } = userData;
-      const response = await fetch(`${siteUrl}/wp-json/custom/v1/sync-cart`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: email,
-          password: password,
-          cart: Object.entries(cartItems).map(([productId, quantity]) => ({
-            product_id: parseInt(productId),
-            quantity
-          }))
-        }),
-      });
 
-      const data = await response.json();
+      const cartData = Object.entries(cartItems).map(([productId, quantity]) => ({
+  product_id: parseInt(productId),
+  quantity,
+}));
+const encodedCart = btoa(JSON.stringify(cartData));
+
+const redirectUrl = `https://cwpteam.ntplstaging.com/Ragu/nextjs/rg/custom-checkout?username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&cart=${encodeURIComponent(encodedCart)}`;
+
+window.location.href = redirectUrl;
+
+
+      
+      // const response = await fetch(`${siteUrl}/wp-json/custom/v1/sync-cart`, {
+      //   method: 'POST',
+      //   credentials: 'include',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     username: email,
+      //     password: password,
+      //     cart: Object.entries(cartItems).map(([productId, quantity]) => ({
+      //       product_id: parseInt(productId),
+      //       quantity
+      //     }))
+      //   }),
+      // });
+
+      // const data = await response.json();
 
       // if (response.ok && data.session_token) {
       //   document.cookie = `wordpress_logged_in_test=${data.session_token}; path=/; domain=cwpteam.ntplstaging.com; secure`;
@@ -59,9 +72,11 @@ const OrderSummary = () => {
       //     window.location.href = `${siteUrl}/cart`;
       //   }, 500);
       // }
-      if (response.ok && data.redirect_url) {
-  window.location.href = data.redirect_url;
-}
+
+      
+//       if (response.ok && data.redirect_url) {
+//   window.location.href = data.redirect_url;
+// }
 
       else {
         alert(data.message || 'Failed to sync cart.');
