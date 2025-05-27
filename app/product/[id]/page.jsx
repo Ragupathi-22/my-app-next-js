@@ -221,6 +221,19 @@ const Product = () => {
             </button>
           )}
         </div>
+                <button
+          onClick={() => router.push(`/all-products`)}
+          className="fixed left-3 top-1/2 transform -translate-y-1/2 bg-white shadow-lg border border-gray-200 rounded-full p-3 hover:scale-105 transition-all z-50"
+          title="Go Back"
+        >
+          <Image
+            src={assets.left_arrow}
+            alt="Back"
+            width={20}
+            height={20}
+            className="object-contain"
+          />
+        </button>
       </div>
       <Footer />
     </>
