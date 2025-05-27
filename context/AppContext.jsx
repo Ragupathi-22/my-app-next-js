@@ -45,6 +45,7 @@ export const AppContextProvider = (props) => {
                 brand: product.brands,
                 attributes: product.attributes,
                 average_rating: product.average_rating,
+                video : product.short_description ? product.short_description.match(/src="([^"]+)"/)?.[1] : null,
             }));
         setProducts(mappedProducts);
     };
