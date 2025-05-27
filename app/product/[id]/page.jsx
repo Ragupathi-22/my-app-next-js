@@ -13,14 +13,23 @@ const Product = () => {
   const { products, router, addToCart } = useAppContext();
 
   const [mainImage, setMainImage] = useState(null);
+  const [isVideo, setIsVideo] = useState(false);
   const [productData, setProductData] = useState(null);
-  const [showAll, setShowAll] = useState(false); // Show more state
-
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   const fetchProductData = async () => {
     const product = products.find((product) => product._id === id);
-    setProductData(product);
-   
+    if (product) {
+      setProductData(product);
+      setMainImage(product.image?.[0] || null);
+      setIsVideo(false);
+
+      // Extract video URL from HTML if present
+      if (product.video) {
+        setVideoUrl(product.video);
+      }
+    }
   };
 
   useEffect(() => {
@@ -31,36 +40,82 @@ const Product = () => {
     <>
       <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          {/* Left Side: Main Image or Video and Thumbnails */}
           <div className="px-5 lg:px-16 xl:px-20">
             <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
-              <Image
-                src={mainImage || productData.image[0]}
-                alt="alt"
-                className="w-full h-auto object-cover mix-blend-multiply"
-                width={1280}
-                height={720}
-              />
+              {isVideo && videoUrl ? (
+                <video
+                  controls
+                  width="100%"
+                  className="w-full h-auto object-cover rounded-lg"
+                >
+                  <source src={videoUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <Image
+                  src={mainImage}
+                  alt="Product"
+                  className="w-full h-auto object-cover mix-blend-multiply"
+                  width={1280}
+                  height={720}
+                />
+              )}
             </div>
 
+            {/* Thumbnails */}
             <div className="grid grid-cols-4 gap-4">
               {productData.image.map((image, index) => (
                 <div
                   key={index}
-                  onClick={() => setMainImage(image)}
+                  onClick={() => {
+                    setMainImage(image);
+                    setIsVideo(false);
+                  }}
                   className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10"
                 >
                   <Image
                     src={image}
-                    alt="alt"
+                    alt="Thumbnail"
                     className="w-full h-auto object-cover mix-blend-multiply"
                     width={1280}
                     height={720}
                   />
                 </div>
               ))}
+
+              {/* Video Thumbnail */}
+              {videoUrl && (
+                <div
+                  onClick={() => {
+                    setIsVideo(true);
+                    setMainImage(null);
+                  }}
+                  className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10 relative"
+                >
+                  <video
+                    className="w-full h-auto object-cover"
+                    muted
+                    playsInline
+                    preload="metadata"
+                  >
+                    <source src={videoUrl + "#t=0.1"} type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <Image
+                      src={assets.play_icon}
+                      alt="Play"
+                      width={40}
+                      height={40}
+                      className="opacity-80"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Right Side: Product Info */}
           <div className="flex flex-col">
             <h1 className="text-3xl font-medium text-gray-800/90 mb-4">
               {productData.name}
