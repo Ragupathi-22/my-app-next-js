@@ -87,7 +87,6 @@ export default function ProfilePopover({ isMobile = false }: { isMobile?: boolea
       {!isMobile && (
         <button onClick={() => setPopOverOpen(!popOverOpen)} className="flex items-center gap-2 hover:text-gray-900 transition">
           <Image src={assets.user_icon} alt="Profile" width={32} height={32} className="rounded-full object-cover" />
-          <span>Account</span>
         </button>
       )}
 
@@ -102,7 +101,6 @@ export default function ProfilePopover({ isMobile = false }: { isMobile?: boolea
           {isMobile && (
             <div className="flex justify-end mb-2">
               <button onClick={() => setPopOverOpen(false)}>
-                {/* <X size={24} /> */}
                 '✖' 
               </button>
             </div>
