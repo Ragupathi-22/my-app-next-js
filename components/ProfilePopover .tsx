@@ -6,7 +6,7 @@ import { useAppContext } from '@/context/AppContext';
 import { assets } from "@/assets/assets";
 import { encryptData } from '@/utils/encryption';
 import Link from 'next/link';
-import { X } from "lucide-react";
+// import { X } from "lucide-react";
 
 export default function ProfilePopover({ isMobile = false }: { isMobile?: boolean }) {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -102,7 +102,8 @@ export default function ProfilePopover({ isMobile = false }: { isMobile?: boolea
           {isMobile && (
             <div className="flex justify-end mb-2">
               <button onClick={() => setPopOverOpen(false)}>
-                <X size={24} />
+                {/* <X size={24} /> */}
+                '✖' 
               </button>
             </div>
           )}
