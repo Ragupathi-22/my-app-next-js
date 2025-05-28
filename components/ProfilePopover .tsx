@@ -6,9 +6,9 @@ import { useAppContext } from '@/context/AppContext';
 import { assets } from "@/assets/assets";
 import { encryptData } from '@/utils/encryption';
 import Link from 'next/link';
+import { X } from "lucide-react";
 
-export default function ProfilePopover() {
- 
+export default function ProfilePopover({ isMobile = false }: { isMobile?: boolean }) {
   const [isRegistering, setIsRegistering] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export default function ProfilePopover() {
   const [error, setError] = useState('');
   const siteUrl = process.env.NEXT_PUBLIC_WC_SITE_URL;
   const popoverRef = useRef(null);
-  const { userData, setUserData, getCartCount,popOverOpen,setPopOverOpen} = useAppContext();
+  const { userData, setUserData, getCartCount, popOverOpen, setPopOverOpen } = useAppContext();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -38,20 +38,16 @@ export default function ProfilePopover() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: email, password }),
       });
-
       const data = await response.json();
-
       if (data.token) {
         localStorage.setItem('jwtToken', data.token);
         const userInfo = {
           name: data.user_display_name,
           email: data.user_email,
-          password :password
+          password
         };
-
         const encryptedUser = encryptData(userInfo);
         localStorage.setItem('token', encryptedUser);
-
         setUserData(userInfo);
         setPopOverOpen(false);
       } else {
@@ -68,33 +64,12 @@ export default function ProfilePopover() {
     setLoading(true);
     setError('');
     try {
-       const response = await fetch(`${siteUrl}/wp-json/custom/v1/register`, {
+      const response = await fetch(`${siteUrl}/wp-json/custom/v1/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({
-         password : password,
-          email: email,
-         username: name,
-        }),
+        body: JSON.stringify({ password, email, username: name }),
       });
       const data = await response.json();
-
-      // const response = await fetch(`${siteUrl}/wp-json/wc/v3/customers`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: 'Basic ' + btoa(`${consumerKey}:${consumerSecret}`),
-      //   },
-      //   body: JSON.stringify({
-      //     email,
-      //     password,
-      //     username: email,
-      //     name,
-      //   }),
-      // });
-
-      // const data = await response.json();
-
       if (data.success) {
         await handleLogin();
       } else {
@@ -109,55 +84,45 @@ export default function ProfilePopover() {
 
   return (
     <div className="relative inline-block text-left" ref={popoverRef}>
-      <button
-        onClick={() => setPopOverOpen(!popOverOpen)}
-        className="flex items-center gap-2 hover:text-gray-900 transition"
-      >
-        <Image
-          src={assets.user_icon}
-          alt="Profile"
-          width={32}
-          height={32}
-          className="rounded-full object-cover"
-        />
-        <span>Account</span>
-      </button>
+      {!isMobile && (
+        <button onClick={() => setPopOverOpen(!popOverOpen)} className="flex items-center gap-2 hover:text-gray-900 transition">
+          <Image src={assets.user_icon} alt="Profile" width={32} height={32} className="rounded-full object-cover" />
+          <span>Account</span>
+        </button>
+      )}
 
       {popOverOpen && (
-        <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-4 animate-fade-in">
+        <div
+          className={`z-40 ${
+            isMobile
+              ? 'fixed inset-0 bg-white p-6 overflow-auto'
+              : 'absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 animate-fade-in'
+          }`}
+        >
+          {isMobile && (
+            <div className="flex justify-end mb-2">
+              <button onClick={() => setPopOverOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+          )}
+
           {!userData ? (
             <div className="space-y-3">
               <h3 className="font-semibold text-gray-800">{isRegistering ? 'Register' : 'Login'}</h3>
 
               {isRegistering && (
-                <input
-                  type="text"
-                  className="w-full p-2 border rounded"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <input type="text" className="w-full p-2 border rounded" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
               )}
-
-              <input
-                type="email"
-                className="w-full p-2 border rounded"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                className="w-full p-2 border rounded"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <input type="email" className="w-full p-2 border rounded" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" className="w-full p-2 border rounded" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
               {error && <p className="text-red-500 text-sm">{error}</p>}
 
               <button
-                className={`w-full ${isRegistering ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} text-white py-2 rounded`}
+                className={`w-full ${
+                  isRegistering ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'
+                } text-white py-2 rounded`}
                 onClick={isRegistering ? handleRegister : handleLogin}
                 disabled={loading}
               >
@@ -185,13 +150,7 @@ export default function ProfilePopover() {
           ) : (
             <>
               <div className="flex items-center gap-3 border-b pb-3">
-                <Image
-                  src={assets.user_icon}
-                  alt="User"
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover"
-                />
+                <Image src={assets.user_icon} alt="User" width={40} height={40} className="rounded-full object-cover" />
                 <div>
                   <p className="font-semibold text-gray-900">{userData.name}</p>
                   <p className="text-sm text-gray-500">{userData.email}</p>
@@ -202,7 +161,6 @@ export default function ProfilePopover() {
                 <Link href="/cart" className="flex items-center gap-2 hover:text-blue-600 cursor-pointer">
                   🛒 <span>Cart ({getCartCount()})</span>
                 </Link>
-
                 <div
                   onClick={() => {
                     localStorage.removeItem('jwtToken');

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import Loading from "@/components/Loading";
 import { useAppContext } from "@/context/AppContext";
+import ProductReviews from "@/components/ProductReviews";
+
 
 const Product = () => {
   const { id } = useParams();
@@ -197,6 +199,15 @@ const Product = () => {
             </div>
           </div>
         </div>
+
+{/* 
+                       <ProductReviews
+                    reviews={productData.reviews || []}
+                    onSubmitReview={(review) => {
+                        // 🔁 Here, call your API to submit review to WooCommerce
+                        console.log("Submit review:", review);
+                    }}
+                /> */}
 
         {/* Featured Products Section */}
         <div className="flex flex-col items-center">
