@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import ProfilePopover from "../components/ProfilePopover ";
-import { Menu, X } from "lucide-react";
+// import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const { router } = useAppContext();
@@ -26,7 +26,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Button */}
       <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        {/* {menuOpen ? <X size={24} /> : <Menu size={24} />} */}
+        {menuOpen ? '✖' : '☰'}
       </button>
 
       {/* Desktop Account */}
