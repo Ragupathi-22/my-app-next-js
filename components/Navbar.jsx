@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700 relative">
-      <Link href="{siteUrl}">
+      <Link href="https://cwpteam.ntplstaging.com/Ragu/nextjs/rg/">
         <Image
           className="cursor-pointer w-8 md:w-15"
           src={assets.logo}
@@ -24,7 +24,7 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-4 lg:gap-8">
-        <Link href="{siteUrl}" className="hover:text-gray-900 transition">Home</Link>
+        <Link href="https://cwpteam.ntplstaging.com/Ragu/nextjs/rg/" className="hover:text-gray-900 transition">Home</Link>
         <Link href="/all-products" className="hover:text-gray-900 transition">Shop</Link>
         <Link href="/cart" className="hover:text-gray-900 transition">Cart</Link>
       </div>
@@ -41,7 +41,7 @@ const Navbar = () => {
       {menuOpen && (
         <div className="absolute top-16 left-0 w-full bg-white border-t border-gray-200 md:hidden z-10">
           <div className="flex flex-col items-start p-4 gap-3">
-            <Link href="{siteUrl}" className="hover:text-gray-900 transition">Home</Link>
+            <Link href="https://cwpteam.ntplstaging.com/Ragu/nextjs/rg/" className="hover:text-gray-900 transition">Home</Link>
             <Link href="/all-products" className="hover:text-gray-900 transition">Shop</Link>
             <Link href="/cart" className="hover:text-gray-900 transition">Cart</Link>
           </div>
