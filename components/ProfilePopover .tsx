@@ -20,15 +20,22 @@ export default function ProfilePopover({ isMobile = false }: { isMobile?: boolea
   const { userData, setUserData, getCartCount, popOverOpen, setPopOverOpen } = useAppContext();
 
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (popoverRef.current && !(popoverRef.current as any).contains(event.target)) {
-        setPopOverOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+// useEffect(() => {
+//   function handleClickOutside(event: MouseEvent) {
+//     if (popoverRef.current && !(popoverRef.current as HTMLElement).contains(event.target as Node)) {
+//       // Delay closing to allow input focus
+//       setTimeout(() => {
+//         setPopOverOpen(false);
+//       }, 100);
+//     }
+//   }
+
+//   document.addEventListener('mousedown', handleClickOutside, true); // ← add `true` to use capture phase
+
+//   return () => {
+//     document.removeEventListener('mousedown', handleClickOutside, true);
+//   };
+// }, []);
 
 
 
