@@ -19,20 +19,16 @@ export default function ProfilePopover({ isMobile = false }: { isMobile?: boolea
   const popoverRef = useRef(null);
   const { userData, setUserData, getCartCount, popOverOpen, setPopOverOpen } = useAppContext();
 
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
-      setPopOverOpen(false);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (popoverRef.current && !(popoverRef.current as any).contains(event.target)) {
+        setPopOverOpen(false);
+      }
     }
-  };
-
-  // Use capture phase to catch clicks before React handlers
-  document.addEventListener('mousedown', handleClickOutside, true);
-
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside, true);
-  };
-}, []);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
 
 
